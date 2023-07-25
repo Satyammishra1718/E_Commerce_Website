@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>landing page</title>
+  <link rel="stylesheet" href="landing.css">
+</head>
+<body>
+  <nav>
+    <div class="logo">UNIVERSALBAZAAR</div>
+    <ul>
+      <li><a href="/signup">Signup</a></li>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/home">Home</a></li>
+    </ul>
+  </nav>
+  
+  <header>
+    <h1>Welcome to <span id="typewriter"></span></h1>
+    <p>"Unleash Your Imagination and Discover a vast, Enchanting world of possibilities."</p>
+  </header>
+  
+  <main>
+    <section>
+      <h2>New Arrivals</h2>
+      <p>Discover the latest and trendiest products just arrived in our store. From fashion to electronics, we've got it all.</p>
+    </section>
+    <section>
+      <h2>Best Sellers</h2>
+      <p>Explore our best-selling products loved by customers worldwide. Find top-rated items and customer favorites</p>
+    </section>
+    <section>
+      <h2>Deals of the Day</h2>
+      <p>Don't miss out on our daily deals and special offers. Grab your favorite products at unbeatable prices.</p>
+    </section>
+  </main>
+  
+  <footer>
+    <p>&copy; 2023 Universal Bazaar. All rights reserved.</p>
+  </footer>
+
+  <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+  <script>
+    let typed=new Typed('#typewriter',{
+        strings:['Universal Bazaar'],
+        typeSpeed:200,
+        backSpeed:200,
+        backDelay:2000,
+        loop:true,
+    });
+  </script>
+</body>
+</html>

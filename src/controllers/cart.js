@@ -1,0 +1,152 @@
+const User = require("../usermodels");
+
+ exports.products = async (req, res) => {
+  const lToken =  req.session.logintoken;
+
+  if (lToken) {
+    const email = req.session.email;
+    const { id, title, image, description, price, quantity } = req.body;
+
+    try {
+      const user = await User.findOne({ email });
+
+      if (user) {
+        const cartItem = user.cart.find((item) => item.idd === parseInt(id));
+
+        if (cartItem) {
+          // If the product already exists in the cart, increase the quantity
+          cartItem.quantity += parseInt(quantity);
+        } else {
+          // If the product doesn't exist in the cart, add a new item
+          const newCartItem = {
+            idd: parseInt(id),
+            title: title,
+            image: image,
+            description: description,
+            price: price,
+            quantity: quantity,
+          };
+
+          user.cart.push(newCartItem);
+        }
+
+        await user.save();
+        return;
+      } else {
+        console.log("User not found");
+         
+      }
+    } catch (error) {
+      console.log(error);
+      // Handle the error appropriately
+    }
+  }else{
+    res.redirect("/login")
+  }
+};
+
+ exports.productsCart = async (req, res) => {
+  const lToken = req.session.logintoken;
+  const isAuth = req.session.isAuth;
+
+  if (!isAuth) {
+    res.redirect("/login");
+    return;
+  }
+
+  if (lToken) {
+    const email = req.session.email;
+
+    try {
+      const user = await User.findOne({ email });
+
+      if (user) {
+        const cartItems = user.cart;
+        const cartMessage = req.session.cartMessage;
+        req.session.cartMessage = null; 
+        res.render("views/cart", { cartItems,cartMessage }); // Pass cartItems to the cart view template
+      } else {
+        console.log("User not found");
+        res.redirect("/login")
+      }
+    } catch (error) {
+      console.log(error);
+      // Handle the error appropriately
+    }
+  }else{
+    res.redirect("/login")
+  }
+};
+
+ exports.removeCartItem = async (req, res) => {
+  const lToken = req.session.logintoken;
+
+  if (lToken) {
+    const email = req.session.email;
+    const itemId = req.body.itemId;
+
+    try {
+      const user = await User.findOne({ email });
+
+      if (user) {
+        const cartItemIndex = user.cart.findIndex((item) => item.idd === parseInt(itemId));
+
+        if (cartItemIndex !== -1) {
+          // Remove the item from the cart
+          user.cart.splice(cartItemIndex, 1);
+          await user.save();
+          res.redirect("/cart")
+        } else {
+          res.status(404).send("Item not found in cart");
+        }
+      } else {
+        res.status(404).send("User not found");
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("An error occurred");
+    }
+  }else{
+    res.redirect("/login")
+  }
+};
+
+ exports.reduceCartItem = async (req, res) => {
+  const lToken = req.session.logintoken;
+
+  if (lToken) {
+    const email = req.session.email;
+    const itemId = req.body.itemId;
+
+    try {
+      const user = await User.findOne({ email });
+
+      if (user) {
+        const cartItem = user.cart.find((item) => item.idd === parseInt(itemId));
+
+        if (cartItem) {
+          if (cartItem.quantity > 1) {
+            // Reduce the quantity by 1
+            cartItem.quantity -= 1;
+            await user.save();
+          } else {
+            // Remove the item from the cart
+            user.cart = user.cart.filter((item) => item.idd !== parseInt(itemId));
+            await user.save();
+          }
+        } else {
+          res.status(404).send("Item not found in cart");
+        }
+      } else {
+        res.status(404).send("User not found");
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("An error occurred");
+    }
+  }else{
+    res.redirect("/login")
+  }
+};
+
+

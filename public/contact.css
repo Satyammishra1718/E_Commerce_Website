@@ -1,0 +1,119 @@
+body {
+	font-family: Arial, sans-serif;
+	background-image: linear-gradient(to bottom right, #E0EEE0, #FAF0E6);
+}
+
+.container {
+    width: 400px;
+    margin: 90px auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    background-image: linear-gradient(to bottom right, #88C7B2, #C3E0CC);
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  .contact-form textarea {
+    height: 100px;
+  }
+  
+  .contact-form button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4caf50;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .contact-form button:hover {
+    background-color: #45a049;
+  }
+  
+  .success-message {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .success-message p {
+    color: #4caf50;
+  }
+
+  .error-message {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .error-message p {
+    color: #ff0000;
+  }
+  
+  .back-home {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #555;
+  }
+  
+  /* Navbar Styles */
+.navbar {
+  background-color: #4CAF50; 
+  padding: 7px 20px;
+}
+
+.navbar-brand {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff; 
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-nav {
+  margin-left: auto; 
+}
+
+.nav-item {
+  margin-right: 20px; 
+}
+
+.nav-link {
+  font-size: 18px;
+  color: #fff;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+  color: #72C3DC !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

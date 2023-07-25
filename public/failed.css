@@ -1,0 +1,38 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    margin: 0;
+    padding: 50px;
+    background-color: #f1f1f1;
+}
+
+img {
+    max-width: 50%;
+    max-height: 50%;
+    margin-bottom: 20px;
+}
+
+.back-to-home {
+    background-color: #0066cc;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.back-to-home p {
+    font-size: 18px;
+    color: #fff;
+    margin: 0;
+}
+
+.back-to-home a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.back-to-home a:hover {
+    text-decoration: underline;
+}
