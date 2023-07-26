@@ -1,48 +1,46 @@
 const User = require("../usermodels");
 
  exports.products = async (req, res) => {
-  const lToken =  req.session.logintoken;
+    const lToken = req.session.logintoken;
 
-  if (lToken) {
-    const email = req.session.email;
-    const { id, title, image, description, price, quantity } = req.body;
+    if (lToken) {
+        const email = req.session.email;
+        const data = JSON.parse(req.body.data);
+        console.log(data);
 
-    try {
-      const user = await User.findOne({ email });
+        try {
+            const user = await User.findOne({ email });
 
-      if (user) {
-        const cartItem = user.cart.find((item) => item.idd === parseInt(id));
+            if (user) {
+                const cartItem = user.cart.find((item) => item.idd === parseInt(data.id));
 
-        if (cartItem) {
-          // If the product already exists in the cart, increase the quantity
-          cartItem.quantity += parseInt(quantity);
-        } else {
-          // If the product doesn't exist in the cart, add a new item
-          const newCartItem = {
-            idd: parseInt(id),
-            title: title,
-            image: image,
-            description: description,
-            price: price,
-            quantity: quantity,
-          };
+                if (cartItem) {
+                    // If the product already exists in the cart, increase the quantity
+                    cartItem.quantity += parseInt(data.quantity);
+                } else {
+                    // If the product doesn't exist in the cart, add a new item
+                    const newCartItem = {
+                        idd: parseInt(data.id),
+                        title: data.title,
+                        image: data.image,
+                        description: data.description,
+                        price: data.price,
+                        quantity: parseInt(data.quantity),
+                    };
 
-          user.cart.push(newCartItem);
+                    user.cart.push(newCartItem);
+                }
+
+                await user.save();
+            } else {
+                console.log("User not found");
+            }
+        } catch (error) {
+            console.log(error);
         }
-
-        await user.save();
-        return;
-      } else {
-        console.log("User not found");
-         
-      }
-    } catch (error) {
-      console.log(error);
-      // Handle the error appropriately
+    } else {
+        res.redirect("/login");
     }
-  }else{
-    res.redirect("/login")
-  }
 };
 
  exports.productsCart = async (req, res) => {

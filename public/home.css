@@ -1,6 +1,6 @@
       body {
         font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
+        background-image: linear-gradient(to bottom right, #E0EEE0, #FAF0E6);
       }
 
       .container {
@@ -192,13 +192,48 @@ a.user:hover {
 .userrr{
   margin-right: 10px;
   text-decoration:none;
+  background-color: #337ab7;
+  color: black;
+  border-radius: 5px;
+  padding: 3px;
 }
 
 .logouttt{
   margin-right: 10px;
   text-decoration:none;
+  background-color: #cc0000;
+  color: black;
+  border-radius: 5px;
+  padding: 3px;
 }
 
 .logouttt:hover{
-  color: red;
+  color: black;
+  background-color: #a30000;
 }
+
+.userrr:hover{
+  color: black;
+  background-color: #135ba3;
+}
+
+a.nav-link{
+  position: relative;
+}
+
+a.nav-link::after{
+    content: '';
+    width: 0;
+    height: 2px;
+    background:#000;
+    position: absolute;
+    left: 8px;
+    bottom: 5px;
+    transition: 0.5s;
+}
+
+a.nav-link:hover::after{
+  width: 50%; 
+}
+
+

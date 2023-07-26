@@ -55,30 +55,34 @@
         </div>
         <div class="quantity-container">
           <label for="">Quantity: </label>
-          <input type="number" min="1" value="1">
+          <input id="quantity-{{id}}" type="number" min="1" value="1">
         </div>
       </div>
       <div class="button-container">
-        <button class="add-to-cart">Add to Cart</button>
-        <button class="add-to-wishlist">Add to Wishlist</button>
+        <button class="add-to-cart" onclick="addToCart(event,{{id}}, '{{title}}', '{{image}}', '{{description}}', {{price}})" >Add to Cart</button>
+        <button class="add-to-wishlist" onclick="addToWishlist(event,{{id}}, '{{title}}', '{{image}}', '{{description}}', {{price}})">Add to Wishlist</button>
       </div>
+      <p class="cart-msg" id="cart-msg-{{id}}" style="color: green; text-align: center; font-size: 20px;"></p>
+      <p class="wishlist-msg" id="wishlist-msg-{{id}}" style="color: green; text-align: center; font-size: 20px;"></p>
     </div>
   </div>
   {{/each}}
+</div> 
 </div>
 
-    </div>
+<iframe name="hidden-iframe" style="display:none;"></iframe>
 
     <script>
-       const searchInput = document.getElementById('category-search');
-       const productItems = document.querySelectorAll('.product-item');
+      // search feature
+      const searchInput = document.getElementById('category-search');
+      const productItems = document.querySelectorAll('.product-item');
 
-    searchInput.addEventListener('input', () => {
-    const searchTerm = searchInput.value.toLowerCase().trim();
+      searchInput.addEventListener('input', () => {
+      const searchTerm = searchInput.value.toLowerCase().trim();
 
       productItems.forEach((productItem) => {
       const categoryElement = productItem.querySelector('.cat');
-       const category = categoryElement.textContent.toLowerCase().replace('category: ', '');
+      const category = categoryElement.textContent.toLowerCase().replace('category: ', '');
 
       if (category.startsWith(searchTerm)) {
         productItem.style.display = 'block';
@@ -87,6 +91,79 @@
       }
     });
   });
+
+    // add to cart
+
+    function addToCart(event,id, title, image, description, price) {
+         event.preventDefault();
+
+            const data = {
+                id: id,
+                title: title,
+                image: image,
+                description: description,
+                price: price,
+                quantity: parseInt(document.getElementById(`quantity-${id}`).value)
+            };
+
+            const form = document.createElement('form');
+            form.action = '/addtocart';
+            form.method = 'POST';
+            form.target = 'hidden-iframe';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'data';
+            input.value = JSON.stringify(data);
+            form.appendChild(input);
+
+            const cartMsgElement = document.getElementById(`cart-msg-${id}`);
+            cartMsgElement.textContent = "Item is added to Cart!!!";
+
+            setTimeout(() => {
+            cartMsgElement.textContent = "";
+            }, 3000);
+
+            document.body.appendChild(form);
+            form.submit();
+   
+             }
+
+             // add to wishlist 
+             function addToWishlist(event,id, title, image, description, price) {
+             event.preventDefault();
+
+            const data = {
+                id: id,
+                title: title,
+                image: image,
+                description: description,
+                price: price,
+                quantity: parseInt(document.getElementById(`quantity-${id}`).value)
+            };
+
+            const form = document.createElement('form');
+            form.action = '/addtowishlist';
+            form.method = 'POST';
+            form.target = 'hidden-iframe';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'data';
+            input.value = JSON.stringify(data);
+            form.appendChild(input);
+
+            const cartMsgElement = document.getElementById(`wishlist-msg-${id}`);
+            cartMsgElement.textContent = "Item is added to Wishlist!!!";
+
+            setTimeout(() => {
+            cartMsgElement.textContent = "";
+            }, 3000);
+
+            document.body.appendChild(form);
+            form.submit();
+   
+             }
     </script>
 </body>
 </html>

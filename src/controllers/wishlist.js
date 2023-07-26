@@ -1,47 +1,51 @@
 const User = require("../usermodels");
- 
- exports.addToWishlist = async (req, res) => {
-    const lToken = req.session.logintoken;
-  
-    if (lToken) {
-      const email = req.session.email;
-      const { id, title, image, description, price, quantity } = req.body;
-  
-      try {
-        const user = await User.findOne({ email });
-  
-        if (user) {
-          const wishlistItem = user.wishlist.find((item) => item.idd === parseInt(id));
-          if (wishlistItem) {
-            // If the product already exists in the wishlist, increase the quantity
-            wishlistItem.quantity += parseInt(quantity);
-          } else {
-            // If the product doesn't exist in the wishlist, add a new item
-            const newWishlistItem = {
-              idd: parseInt(id),
-              title: title,
-              image: image,
-              description: description,
-              price: price,
-              quantity: quantity,
-            };
-            user.wishlist.push(newWishlistItem);
-          }
-  
-          await user.save();
-          return;
+
+exports.addToWishlist = async (req, res) => {
+  const lToken = req.session.logintoken;
+
+  if (lToken) {
+    const email = req.session.email;
+    const data = JSON.parse(req.body.data);
+    console.log(data);
+
+    try {
+      const user = await User.findOne({ email });
+
+      if (user) {
+        const wishlistItem = user.wishlist.find((item) => item.id === parseInt(data.id));
+
+        if (wishlistItem) {
+          // If the product already exists in the wishlist, increase the quantity
+          wishlistItem.quantity += parseInt(data.quantity);
         } else {
-          console.log("User not found");
-          res.redirect("/login");
+          // If the product doesn't exist in the wishlist, add a new item
+          const newWishlistItem = {
+            id: parseInt(data.id),
+            title: data.title,
+            image: data.image,
+            description: data.description,
+            price: data.price,
+            quantity: parseInt(data.quantity),
+          };
+
+          user.wishlist.push(newWishlistItem);
         }
-      } catch (error) {
-        console.log(error);
-        // Handle the error appropriately
+
+        await user.save();
+        res.sendStatus(200);
+      } else {
+        console.log("User not found");
+        res.redirect("/login");
       }
-    }else{
-      res.redirect("/login")
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
     }
-  };
+  } else {
+    res.redirect("/login");
+  }
+};
+
 
   exports.removeWishlistItem = async (req, res) => {
     const lToken = req.session.logintoken;
