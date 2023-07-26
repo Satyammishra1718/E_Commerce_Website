@@ -14,7 +14,7 @@ const User = require("../usermodels");
   try {
     if(lToken){
      // Fetch product data from the e-commerce API
-     const response = await axios.get('https://fakestoreapi.com/products?limit=12');
+     const response = await axios.get('https://fakestoreapi.com/products?limit=15');
      const products = response.data; // Assuming the API response contains an array of products
      req.session.products=products;
 

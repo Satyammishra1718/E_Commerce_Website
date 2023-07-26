@@ -14,7 +14,7 @@ body {
     font-weight: bold;
     color: #333;
     margin-bottom: 20px;
-    padding-left: 575px;
+    padding-left: 450px;
   }
 
 .cart-items {
@@ -95,7 +95,6 @@ body {
     border-radius: 3px;
     padding: 5px 10px;
     cursor: pointer;
-    margin-right: 10px;
     font-size: 14px;
     font-weight: bold;
     
@@ -104,7 +103,6 @@ body {
   .reduce-quantity-btn:hover{
     background-color: #e65c00;
   }
-  
   
   .remove-item-btn {
     background-color: #f44336;
@@ -115,6 +113,7 @@ body {
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
+    margin-right: 500px;
   }
   
   .remove-item-btn:hover {
@@ -205,3 +204,44 @@ body {
     font-weight: bold;
     text-align: center;
   }
+
+   /* Navbar Styles */
+.navbar {
+    padding: 7px 20px;
+    background-color: #f8f8f8;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-nav {
+    margin-left: auto; 
+}
+
+.nav-item {
+    margin-right: 20px; 
+}
+
+.nav-link {
+    font-size: 18px;
+    color: #000;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+    color: #72C3DC !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

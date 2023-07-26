@@ -1,6 +1,6 @@
 const User = require("../usermodels");
 
-exports.addToWishlist = async (req, res) => {
+ exports.addToWishlist = async (req, res) => {
   const lToken = req.session.logintoken;
 
   if (lToken) {
