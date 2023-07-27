@@ -54,7 +54,7 @@ const User = require("../usermodels");
  exports.renderLoginForm = async (req, res) => {
   const sessionExpired = req.session.expires;
   if (sessionExpired) {
-    var errorMessage = "Session expired, please log in again";
+    var errorMessage = "Session Timeout: You have been logged out due to inactivity.";
     // Clear the session flag
     delete req.session.expires;
 
