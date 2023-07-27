@@ -6,7 +6,7 @@ function redirectToLogin() {
   }
   
   // Set the session timeout in milliseconds (10 minutes = 600000 ms)
-  const sessionTimeout = 3000;  
+  const sessionTimeout = 600*1000;  
   let sessionTimer;
   
   // Function to reset the session timer
