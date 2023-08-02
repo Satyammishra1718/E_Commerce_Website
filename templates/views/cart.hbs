@@ -38,8 +38,8 @@
                             <p class="item-price">$ {{price}}</p>
                             <p class="item-quantity">Quantity: {{quantity}}</p>
                             <div class="item-actions">
-                                <button class="reduce-quantity-btn">Reduce Quantity</button>
-                                <button class="remove-item-btn">Remove Item</button>
+                                <button class="reduce-quantity-btn" onclick="reducefromCart(event,'{{idd}}')">Reduce Quantity</button>
+                                <button class="remove-item-btn" onclick="removefromCart(event,'{{idd}}')">Remove Item</button>
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
         {{#if cartItems}}
             <div class="cart-total">
                 <div class="total-label">Total:</div>
-                <div class="total-price">$ {{calculateTotalPrice}}</div>
+                <div class="total-price">$ {{totalPrice}}</div>
             </div>
         {{/if}}
 
@@ -67,7 +67,52 @@
         <a href="/checkout" class="pay-button">Proceed to Checkout</a>
     </div>
 
-    <script src="path/to/your/bootstrap.min.js"></script> 
+     <script>
+        // remove item from cart
+         function removefromCart(event,idd) {
+             event.preventDefault();
+
+            const data = {
+                id: idd
+            };
+
+            const form = document.createElement('form');
+            form.action = '/cart/remove';
+            form.method = 'POST';
+            form.target = '_self';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'data';
+            input.value = JSON.stringify(data);
+            form.appendChild(input);
+
+            document.body.appendChild(form);
+            form.submit();
+             }
+        // reduce item from cart
+         function reducefromCart(event,idd) {
+             event.preventDefault();
+
+            const data = {
+                id: idd
+            };
+
+            const form = document.createElement('form');
+            form.action = '/cart/reduce';
+            form.method = 'POST';
+            form.target = '_self';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'data';
+            input.value = JSON.stringify(data);
+            form.appendChild(input);
+
+            document.body.appendChild(form);
+            form.submit();
+             }
+     </script>
     <script src="session-timeout/session-timeout.js"></script>
 </body>
 </html>

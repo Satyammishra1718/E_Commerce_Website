@@ -52,7 +52,6 @@ router.get("/home", home.renderHomePage);
 router.post('/logout', home.logoutUser);
 router.get('/logout', home.logoutUser);
 
-
 // Reset password route
 router.get("/reset", reset.resetPass);
 router.post("/reset", reset.resetPassword);

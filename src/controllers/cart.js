@@ -43,6 +43,14 @@ const User = require("../usermodels");
     }
 };
 
+const calculateTotalPrice = (cartItems) => {
+  let totalPrice = 0;
+  for (const item of cartItems) {
+    totalPrice += item.price * item.quantity;
+  }
+  return totalPrice.toFixed(2);
+};
+
  exports.productsCart = async (req, res) => {
   const lToken = req.session.logintoken;
   const isAuth = req.session.isAuth;
@@ -62,7 +70,9 @@ const User = require("../usermodels");
         const cartItems = user.cart;
         const cartMessage = req.session.cartMessage;
         req.session.cartMessage = null; 
-        res.render("views/cart", { cartItems,cartMessage }); // Pass cartItems to the cart view template
+        const totalPrice = calculateTotalPrice(cartItems);
+
+        res.render("views/cart", { cartItems, cartMessage, totalPrice });
       } else {
         console.log("User not found");
         res.redirect("/login")
@@ -81,13 +91,13 @@ const User = require("../usermodels");
 
   if (lToken) {
     const email = req.session.email;
-    const itemId = req.body.itemId;
+    const itemId = JSON.parse(req.body.data);
 
     try {
       const user = await User.findOne({ email });
 
       if (user) {
-        const cartItemIndex = user.cart.findIndex((item) => item.idd === parseInt(itemId));
+        const cartItemIndex = user.cart.findIndex((item) => item.idd === parseInt(itemId.id));
 
         if (cartItemIndex !== -1) {
           // Remove the item from the cart
@@ -114,23 +124,25 @@ const User = require("../usermodels");
 
   if (lToken) {
     const email = req.session.email;
-    const itemId = req.body.itemId;
+    const itemId = JSON.parse(req.body.data);
 
     try {
       const user = await User.findOne({ email });
 
       if (user) {
-        const cartItem = user.cart.find((item) => item.idd === parseInt(itemId));
+        const cartItem = user.cart.find((item) => item.idd === parseInt(itemId.id));
 
         if (cartItem) {
           if (cartItem.quantity > 1) {
             // Reduce the quantity by 1
             cartItem.quantity -= 1;
             await user.save();
+            res.redirect("/cart");
           } else {
             // Remove the item from the cart
             user.cart = user.cart.filter((item) => item.idd !== parseInt(itemId));
             await user.save();
+            res.redirect("/cart");
           }
         } else {
           res.status(404).send("Item not found in cart");

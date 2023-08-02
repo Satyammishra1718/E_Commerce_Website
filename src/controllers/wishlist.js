@@ -6,13 +6,14 @@ const User = require("../usermodels");
   if (lToken) {
     const email = req.session.email;
     const data = JSON.parse(req.body.data);
+    console.log(data.id);
     console.log(data);
 
     try {
       const user = await User.findOne({ email });
 
       if (user) {
-        const wishlistItem = user.wishlist.find((item) => item.id === parseInt(data.id));
+        const wishlistItem = user.wishlist.find((item) => item.title === data.title);
 
         if (wishlistItem) {
           // If the product already exists in the wishlist, increase the quantity
@@ -20,7 +21,7 @@ const User = require("../usermodels");
         } else {
           // If the product doesn't exist in the wishlist, add a new item
           const newWishlistItem = {
-            id: parseInt(data.id),
+            idd: parseInt(data.id),
             title: data.title,
             image: data.image,
             description: data.description,
@@ -32,7 +33,6 @@ const User = require("../usermodels");
         }
 
         await user.save();
-        res.sendStatus(200);
       } else {
         console.log("User not found");
         res.redirect("/login");
@@ -53,13 +53,13 @@ const User = require("../usermodels");
   
     if (lToken) {
       const email = req.session.email;
-      const itemId = req.body.itemId;
+      const itemId = JSON.parse(req.body.data);
   
       try {
         const user = await User.findOne({ email });
   
         if (user) {
-          const wishlistItemIndex = user.wishlist.findIndex((item) => item.idd === parseInt(itemId));
+          const wishlistItemIndex = user.wishlist.findIndex((item) => item.idd === parseInt(itemId.id));
   
           if (wishlistItemIndex !== -1) {
             // Remove the item from the cart
@@ -121,29 +121,34 @@ const User = require("../usermodels");
   
     if (lToken) {
       const email = req.session.email;
-      const { itemId, quantity, image, price, title, description } = JSON.parse(req.body.data);
+      const data = JSON.parse(req.body.data);
   
       try {
         const user = await User.findOne({ email });
   
         if (user) {
-          const cartItem = user.cart.find((item) => item.idd === parseInt(itemId));
+          const cartItem = user.cart.find((item) => item.idd === parseInt(data.itemId));
           if (cartItem) {
             // If the product already exists in the wishlist, increase the quantity
-            cartItem.quantity += parseInt(quantity);
+            cartItem.quantity += data.quantity;
           } else {
             // If the product doesn't exist in the wishlist, add a new item
             const newcartItem = {
-              idd: parseInt(itemId),
-              title: title,
-              image: image,
-              description: description,
-              price: price,
-              quantity: parseInt(quantity)
+              idd: parseInt(data.itemId),
+              title: data.title,
+              image: data.image,
+              description: data.description,
+              price: data.price,
+              quantity:data.quantity
             };
             user.cart.push(newcartItem);
           }
   
+          const wishlistItemIndex = user.wishlist.findIndex((item) => item.idd === parseInt(data.itemId));
+          if (wishlistItemIndex !== -1) {
+          user.wishlist.splice(wishlistItemIndex, 1);
+          }
+
           await user.save();
           res.redirect("/wishlist");
         } else {
