@@ -1,18 +1,24 @@
+body {
+	font-family: Arial, sans-serif;
+	background-image: linear-gradient(to bottom right, #E0EEE0, #FAF0E6);
+}
+
 .payment-form {
     width: 400px;
-    margin: 30px auto;
+    margin: 80px auto 20px;
     padding: 20px;
     border: 1px solid #ccc;
     background-color: #f7f7f7;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(to bottom right, #88C7B2, #C3E0CC);
     border-radius: 5px;
   }
   
   .payment-form h1 {
     text-align: center;
     color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 20px;
+    margin-bottom: 10px;
   }
   
   .payment-form form {
@@ -21,21 +27,21 @@
   }
   
   .payment-form label {
-    margin-top: 10px;
+    margin-top: 7px;
     color: #555;
     font-weight: bold;
   }
   
   .payment-form input {
     padding: 10px;
-    margin-top: 5px;
+    margin-top: 3px;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
   
   .payment-form .pay-button {
     padding: 10px;
-    margin-top: 20px;
+    margin-top: 5px;
     background-color: #4CAF50;
     color: #fff;
     border: none;
@@ -69,4 +75,73 @@
     margin-bottom: 0px;
     padding-left: 25px;
   }
+
+  .mandatory{
+    margin-left: 5px;
+    font-size: 17px;
+    color: red;
+  }
+  
+  .totalamt{
+    color: red;
+    text-align: center;
+  }
+
+  .labelamt{
+    text-align: center;
+  }
+
+  /* Navbar Styles */
+.navbar {
+  padding: 7px 20px;
+}
+
+.navbar-brand {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000; 
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-nav {
+  margin-left: auto; 
+}
+
+.nav-item {
+  margin-right: 20px; 
+}
+
+.nav-link {
+  font-size: 18px;
+  color: #000;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+  color: #72C3DC !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.font_size{
+  font-size: 15px;
+}
+
+input[type="text"]{
+  font-size: 14px;
+}
+
+.error-msg{
+  text-align: center;
+  color: red;
+  font-size: 16px;
+}
   

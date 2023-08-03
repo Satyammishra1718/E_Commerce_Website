@@ -83,7 +83,7 @@ router.post("/update_profile",user.update_profile);
 
 // payment update route
 router.get("/payment",payment.renderpayment1);
-router.post("/payment",payment.renderpayment);
+router.post("/payment_post",payment.renderpayment);
 
 // success route
 router.post("/success",success.success_render);

@@ -71,6 +71,8 @@ const calculateTotalPrice = (cartItems) => {
         const cartMessage = req.session.cartMessage;
         req.session.cartMessage = null; 
         const totalPrice = calculateTotalPrice(cartItems);
+        user.totalAmount = totalPrice;
+        await user.save();
 
         res.render("views/cart", { cartItems, cartMessage, totalPrice });
       } else {

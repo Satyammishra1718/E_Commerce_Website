@@ -64,7 +64,9 @@
             </div>
         {{/if}}
 
-        <a href="/checkout" class="pay-button">Proceed to Checkout</a>
+         {{#if cartItems}}  
+            <a href="/payment" class="pay-button">Proceed to Checkout</a>
+         {{/if}}
     </div>
 
      <script>

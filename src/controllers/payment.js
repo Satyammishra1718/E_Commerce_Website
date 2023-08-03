@@ -16,16 +16,10 @@ const User = require("../usermodels");
       const user = await User.findOne({ email });
 
       if (user) {
-        const cartTotalAmount = decodeURIComponent(req.query.cartTotalAmount);
-        const total = cartTotalAmount;
-        req.session.cartTotalAmount = cartTotalAmount;
-        console.log("Cart Total Amount:", total);
-        if (user.cart.length > 0) {
-          res.render("views/payment", { total });
-        } else {
-          req.session.cartMessage = "Your cart is empty";
-          res.redirect("/cart");
-        }
+        const totalAmount = user.totalAmount || 0; 
+        req.session.totalAmount = totalAmount;
+
+        res.render("views/payment", { totalAmount });
       } else {
         console.log("User not found");
       }
@@ -38,7 +32,6 @@ const User = require("../usermodels");
 };
 
  exports.renderpayment = async (req, res) => {
-  console.log("Payment route accessed");
   const lToken = req.session.logintoken;
   const isAuth = req.session.isAuth;
 
@@ -49,15 +42,25 @@ const User = require("../usermodels");
 
   if (lToken) {
     const email = req.session.email;
+    const totalAmount = req.session.totalAmount;
 
     try {
       const user = await User.findOne({ email });
 
       if (user) {
-        const cartTotalAmount = decodeURIComponent(req.query.cartTotalAmount);
-        console.log("Decoded Cart Total Amount:", cartTotalAmount);
-        req.session.cartTotalAmount = cartTotalAmount;
-        res.render("views/payment",{total:cartTotalAmount});
+        const { cardNumber, expiryDate, cvv } = req.body;
+        var errorMessage = "Invalid Format or Details.";
+
+        const cardNumberPattern = /^(\d{4}\s?){3}\d{4}$/;
+        const expiryDatePattern = /^(0[1-9]|1[0-2])\/\d{4}$/;
+        const cvvPattern = /^\d{3}$/;
+
+         if (!cardNumber.match(cardNumberPattern) || !expiryDate.match(expiryDatePattern) || !cvv.match(cvvPattern) ) {
+          return res.render("views/payment",{errorMessage,totalAmount});
+        }
+        
+        return res.render("views/success");
+
       } else {
         console.log("User not found");
       }
