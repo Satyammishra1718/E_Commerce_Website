@@ -11,7 +11,6 @@ const User = require("../usermodels");
     try {
       const { username, email, password, c_password } = req.body;
   
-      // Check for username duplication
       const duplicateName = await User.findOne({ uname: username });
       if (duplicateName && duplicateName.uname === username) {
         res.render("views/signup", {
@@ -21,7 +20,6 @@ const User = require("../usermodels");
         return;
       }
   
-      // Check for email duplication
       const duplicateUser = await User.findOne({ email });
       if (duplicateUser && duplicateUser.email === email) {
         res.render("views/signup", {
@@ -32,7 +30,6 @@ const User = require("../usermodels");
         return;
       }
   
-      // Check password length
       if (password.length < 8) {
         res.render("views/signup", {
           errorMessage: "Password should be at least 8 characters",
@@ -41,8 +38,7 @@ const User = require("../usermodels");
         });
         return;
       }
-  
-      // Password complexity
+
       const hasLower = /[a-z]/.test(password);
       const hasUpper = /[A-Z]/.test(password);
       const hasDigit = /\d/.test(password);
@@ -57,7 +53,6 @@ const User = require("../usermodels");
         return;
       }
   
-      // Check for password match
       if (password !== c_password) {
         res.render("views/signup", {
           errorMessage: "Passwords do not match",
@@ -67,22 +62,19 @@ const User = require("../usermodels");
         return;
       }
   
-      // Generate hashed password
       const hashpass = await bcrypt.hash(password, 10);
   
-      // Create a new user
       const newUser = new User({
         uname: username,
         email: email,
         password: hashpass,
         confirmpassword: c_password,
       });
-       //generate token when user signin before going to login page
+  
        const token=await newUser.generateAuthTokenS();
   
-      // Save the user to the database
       const savedUser = await newUser.save();
-       // Store the success message in flash messages
+      
       req.flash('success', 'Registration successful! You can now login.');
       res.redirect("/login");
     } catch (error) {

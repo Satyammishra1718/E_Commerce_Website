@@ -62,7 +62,6 @@ const User = require("../usermodels");
           const wishlistItemIndex = user.wishlist.findIndex((item) => item.idd === parseInt(itemId.id));
   
           if (wishlistItemIndex !== -1) {
-            // Remove the item from the cart
             user.wishlist.splice(wishlistItemIndex, 1);
             await user.save();
             res.redirect("/wishlist")
@@ -129,10 +128,8 @@ const User = require("../usermodels");
         if (user) {
           const cartItem = user.cart.find((item) => item.idd === parseInt(data.itemId));
           if (cartItem) {
-            // If the product already exists in the wishlist, increase the quantity
             cartItem.quantity += data.quantity;
           } else {
-            // If the product doesn't exist in the wishlist, add a new item
             const newcartItem = {
               idd: parseInt(data.itemId),
               title: data.title,

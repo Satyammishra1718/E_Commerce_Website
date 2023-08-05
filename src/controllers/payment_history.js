@@ -17,8 +17,7 @@ const User = require("../usermodels");
 
       if (user) {
         const username = user.uname;
-        let total = req.session.cartTotalAmount;
-        console.log(total);
+        let total = req.session.totalAmount;
         const currentDate = new Date();
         let paymentStatus = req.session.paymentStatus || "Failed";
 
@@ -30,7 +29,7 @@ const User = require("../usermodels");
             date: currentDate,
           };
           user.paymentHistory.push(paymentData);
-          req.session.cartTotalAmount = 0;
+          req.session.totalAmount = 0;
           paymentStatus = " ";
         }
 

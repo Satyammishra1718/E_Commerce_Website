@@ -12,7 +12,6 @@ const User = require("../usermodels");
   try {
     const { email, password, c_password } = req.body;
 
-    // Check if email exists or not
     const findEmail = await User.findOne({ email });
     if (!findEmail) {
       res.render("views/resetpassword", {
@@ -22,7 +21,6 @@ const User = require("../usermodels");
       return;
     }
 
-    // Check for password match
     if (password !== c_password) {
       res.render("views/resetpassword", {
         errorMessage: "Passwords do not match",
@@ -31,7 +29,6 @@ const User = require("../usermodels");
       return;
     }
 
-    // Check password length
     if (password.length < 8) {
       res.render("views/resetpassword", {
         errorMessage: "Password should be at least 8 characters long",
@@ -40,7 +37,6 @@ const User = require("../usermodels");
       return;
     }
 
-    // Check if the new password is already taken
     const allUsers = await User.find({});
     for (let user of allUsers) {
       if (await bcrypt.compare(password, user.password)) {
@@ -52,13 +48,10 @@ const User = require("../usermodels");
       }
     }
 
-    // Hash the new password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Update the user's password in the database
     await User.findOneAndUpdate({ email: email }, { password: hashedPassword });
 
-    // Show success message and redirect to the login page after a delay
     res.render("views/login", {
       successMessage: "Password updated. Try logging in again.",
     });

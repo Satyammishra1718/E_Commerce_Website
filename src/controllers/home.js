@@ -1,7 +1,6 @@
 const axios=require("axios");
 const User = require("../usermodels");
 
-// Home page controller
  exports.renderHomePage = async (req, res) => {
   const isAuth = req.session.isAuth;
   const lToken=req.session.logintoken;
@@ -13,12 +12,10 @@ const User = require("../usermodels");
 
   try {
     if(lToken){
-     // Fetch product data from the e-commerce API
      const response = await axios.get('https://fakestoreapi.com/products?limit=18');
-     const products = response.data; // Assuming the API response contains an array of products
+     const products = response.data; 
      req.session.products=products;
 
-     // Render the home page view and pass the product data for rendering
      res.render("views/home", { products });
      return;
    }else{

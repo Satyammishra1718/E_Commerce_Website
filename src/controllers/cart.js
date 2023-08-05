@@ -15,10 +15,8 @@ const User = require("../usermodels");
                 const cartItem = user.cart.find((item) => item.idd === parseInt(data.id));
 
                 if (cartItem) {
-                    // If the product already exists in the cart, increase the quantity
                     cartItem.quantity += parseInt(data.quantity);
                 } else {
-                    // If the product doesn't exist in the cart, add a new item
                     const newCartItem = {
                         idd: parseInt(data.id),
                         title: data.title,
@@ -81,7 +79,6 @@ const calculateTotalPrice = (cartItems) => {
       }
     } catch (error) {
       console.log(error);
-      // Handle the error appropriately
     }
   }else{
     res.redirect("/login")
@@ -102,7 +99,6 @@ const calculateTotalPrice = (cartItems) => {
         const cartItemIndex = user.cart.findIndex((item) => item.idd === parseInt(itemId.id));
 
         if (cartItemIndex !== -1) {
-          // Remove the item from the cart
           user.cart.splice(cartItemIndex, 1);
           await user.save();
           res.redirect("/cart")
@@ -136,12 +132,10 @@ const calculateTotalPrice = (cartItems) => {
 
         if (cartItem) {
           if (cartItem.quantity > 1) {
-            // Reduce the quantity by 1
             cartItem.quantity -= 1;
             await user.save();
             res.redirect("/cart");
           } else {
-            // Remove the item from the cart
             user.cart = user.cart.filter((item) => item.idd !== parseInt(itemId));
             await user.save();
             res.redirect("/cart");

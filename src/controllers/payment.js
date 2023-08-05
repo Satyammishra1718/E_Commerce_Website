@@ -56,8 +56,13 @@ const User = require("../usermodels");
         const cvvPattern = /^\d{3}$/;
 
          if (!cardNumber.match(cardNumberPattern) || !expiryDate.match(expiryDatePattern) || !cvv.match(cvvPattern) ) {
+          req.session.paymentStatus = "Failed";
           return res.render("views/payment",{errorMessage,totalAmount});
         }
+
+        req.session.paymentStatus = "Success";
+        user.cart = []; 
+        await user.save();
         
         return res.render("views/success");
 
